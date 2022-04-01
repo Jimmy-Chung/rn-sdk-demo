@@ -6,10 +6,10 @@
  * @flow strict-local
  */
 
-import React from 'react';
+import React, {useState} from 'react';
 import type {Node} from 'react';
 
-import mopsdk from 'react-native-mopsdk';
+import MopSDK from 'react-native-mopsdk';
 import {
   SafeAreaView,
   ScrollView,
@@ -23,50 +23,56 @@ import {
   Platform,
 } from 'react-native';
 
+// 按钮提供一个状态，状态用户 qrcodescanner 的渲染
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
-mopsdk
-  .initialize({
-    sdkkey: '22LyZEib0gLTQdU3MUauASlb4KFRNRajt4RmY6UDSucA',
-    secret: 'c5cc7a8c14a2b04a',
-  })
+// import QRCodeScanner from 'react-native-qrcode-scanner';
+// import {RNCamera} from 'react-native-camera';
+
+import ScanScreen from './scanner.js';
+MopSDK.initialize({
+  appkey: '22LyZEib0gLTQdU3MUauASlb4KFRNRajt4RmY6UDSucA',
+  secret: 'c5cc7a8c14a2b04a',
+  apiServer: 'https://mp.finogeeks.com',
+  apiPrefix: '/api/v1/mop',
+})
   .then(res => {
-    console.log('message: ', res);
+    console.log('🚀 ~ file: App.js ~ line 41 ~ res', res);
   })
   .catch(error => {
-    console.log('error: ', error);
+    console.log('🚀 ~ file: App.js ~ line 48 ~ error', error);
   });
 
 const openApplet = () => {
   console.log('openApplet call');
-  mopsdk.openApplet({appId: '5ea0412663cb900001d73867'});
+  MopSDK.openApplet({appId: '5ea0412663cb900001d73867'});
 };
 
 const getCurrentApplet = () => {
   console.log('getCurrentApplet call');
-  mopsdk.currentApplet().then(res => {
+  MopSDK.currentApplet().then(res => {
     console.log('currentApplet', res);
   });
 };
 
 const closeApplet = () => {
   console.log('closeApplet call');
-  mopsdk.closeApplet('5ea0412663cb900001d73867', true);
+  MopSDK.closeApplet('5ea0412663cb900001d73867', true);
 };
 
 const closeAllApplets = () => {
   console.log('closeAllApplets call');
-  mopsdk.closeAllApplets();
+  MopSDK.closeAllApplets();
 };
 
 const qrcodeOpenApplet = () => {
   console.log('qrcodeOpenApplet call');
-  mopsdk.qrcodeOpenApplet();
+  MopSDK.qrcodeOpenApplet();
 };
 
 const clearApplets = () => {
   console.log('clearApplets call');
-  mopsdk.clearApplets();
+  MopSDK.clearApplets();
 };
 
 const registerAppletHandler = () => {
@@ -108,7 +114,7 @@ const registerAppletHandler = () => {
       console.log('appletDidOpen call');
     },
   };
-  mopsdk.registerAppletHandler(handler);
+  MopSDK.registerAppletHandler(handler);
 };
 
 const addWebExtentionApi = () => {
@@ -118,7 +124,7 @@ const addWebExtentionApi = () => {
     params.getWebUserProfileCalled = true;
     return {webUserProfile: params};
   };
-  mopsdk.addWebExtentionApi('getWebUserProfile', getWebUserProfile);
+  MopSDK.addWebExtentionApi('getWebUserProfile', getWebUserProfile);
 };
 
 const registerExtensionApi = () => {
@@ -128,20 +134,20 @@ const registerExtensionApi = () => {
     params.getUserProfileCalled = true;
     return {userProfile: params};
   };
-  mopsdk.registerExtensionApi('getUserProfile', getUserProfile);
+  MopSDK.registerExtensionApi('getUserProfile', getUserProfile);
 };
 
 const callJS = () => {
   console.log('callJS call');
   // todo: nativeViewId 应该填啥
-  mopsdk.callJS('5ea0412663cb900001d73867', 'app2jsFunction', '', {
+  MopSDK.callJS('5ea0412663cb900001d73867', 'app2jsFunction', '', {
     foo: 'test',
   });
 };
 
 const sendCustomEvent = () => {
   console.log('sendCustomEvent call');
-  mopsdk.sendCustomEvent('5ea0412663cb900001d73867', {
+  MopSDK.sendCustomEvent('5ea0412663cb900001d73867', {
     evenatName: 'hello-world',
     foo: 'test',
   });
@@ -149,7 +155,7 @@ const sendCustomEvent = () => {
 
 const finishRunningApplet = () => {
   console.log('finishRunningApplet call');
-  mopsdk.finishRunningApplet('5ea0412663cb900001d73867', true);
+  MopSDK.finishRunningApplet('5ea0412663cb900001d73867', true);
 };
 
 const setActivityTransitionAnim = () => {
@@ -159,9 +165,11 @@ const setActivityTransitionAnim = () => {
   }
   console.log('setActivityTransitionAnim call');
   // todo: anim 的值？
-  mopsdk.setActivityTransitionAnim();
+  MopSDK.setActivityTransitionAnim();
 };
 const App: () => Node = () => {
+  const [count, setCount] = useState(0);
+
   const isDarkMode = useColorScheme() === 'dark';
 
   return (
@@ -191,6 +199,7 @@ const App: () => Node = () => {
           title="设置小程序切换动画（仅安卓）"
           onPress={setActivityTransitionAnim}
         />
+        <Button onPress={() => setCount(count + 1)} title="click me" />
       </ScrollView>
     </SafeAreaView>
   );

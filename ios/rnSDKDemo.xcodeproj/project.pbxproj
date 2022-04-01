@@ -114,7 +114,6 @@
 				2151CF1CF179A07B9B9C880E /* Pods-rnSDKDemo-rnSDKDemoTests.debug.xcconfig */,
 				FFEB6A99083F58763A770A4D /* Pods-rnSDKDemo-rnSDKDemoTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -485,6 +484,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = Z6G5QQF68Y;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = rnSDKDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -511,6 +511,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = Z6G5QQF68Y;
 				INFOPLIST_FILE = rnSDKDemo/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
