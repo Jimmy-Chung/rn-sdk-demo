@@ -1,4 +1,8 @@
 rootProject.name = 'rnSDKDemo'
+include ':react-native-permissions'
+project(':react-native-permissions').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-permissions/android')
+include ':react-native-camera'
+project(':react-native-camera').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-camera/android')
 include ':react-native-mopsdk'
 project(':react-native-mopsdk').projectDir = new File(rootProject.projectDir, '../../../temp-work/react-native-mopsdk/android')
 include ':react-native-permissions'

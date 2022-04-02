@@ -1,30 +1,53 @@
 import React, {Component} from 'react';
 
-import {
-  AppRegistry,
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Linking,
-} from 'react-native';
+import {StyleSheet, ScrollView, SafeAreaView, Button, View} from 'react-native';
 
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import {RNCamera} from 'react-native-camera';
 
 class ScanScreen extends Component {
   onSuccess = e => {
-    Linking.openURL(e.data).catch(err =>
-      console.error('An error occured', err),
-    );
+    this.props.getQRCodeResult(e.data);
+    this.props.handler(false);
   };
 
   render() {
-    return <View>111</View>;
+    return this.props.isShowScaner ? (
+      <SafeAreaView style={styles.container}>
+        <ScrollView>
+          <QRCodeScanner
+            onRead={this.onSuccess}
+            flashMode={RNCamera.Constants.FlashMode.torch}
+            bottomContent={
+              <View style={styles.marginTop}>
+                <Button
+                  title="退出扫码"
+                  onPress={() => {
+                    this.props.handler(false);
+                  }}
+                />
+              </View>
+            }
+          />
+        </ScrollView>
+      </SafeAreaView>
+    ) : null;
   }
 }
 
 const styles = StyleSheet.create({
+  container: {
+    backgroundColor: '#fff',
+    position: 'absolute',
+    height: '100%',
+    top: 0,
+    left: 0,
+    zIndex: 10,
+    justifyContent: 'center',
+  },
+  marginTop: {
+    marginTop: 30,
+  },
   centerText: {
     flex: 1,
     fontSize: 18,
@@ -44,4 +67,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default QRCodeScanner;
+export default ScanScreen;

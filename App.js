@@ -31,9 +31,9 @@ import {Colors} from 'react-native/Libraries/NewAppScreen';
 
 import ScanScreen from './scanner.js';
 MopSDK.initialize({
-  appkey: '22LyZEib0gLTQdU3MUauASlb4KFRNRajt4RmY6UDSucA',
-  secret: 'c5cc7a8c14a2b04a',
-  apiServer: 'https://mp.finogeeks.com',
+  appkey: 'WwLAv8FfjC+fctvUY2V7dg==',
+  secret: '9ec7155ac83d263a',
+  apiServer: 'https://finchat-mop-b.finogeeks.club',
   apiPrefix: '/api/v1/mop',
 })
   .then(res => {
@@ -65,7 +65,9 @@ const closeAllApplets = () => {
   MopSDK.closeAllApplets();
 };
 
-const qrcodeOpenApplet = () => {
+const qrcodeOpenApplet = qrcode => {
+  console.log('🚀 ~ file: App.js ~ line 72 ~ qrcodeOpenApp ~ qrcode', qrcode);
+
   console.log('qrcodeOpenApplet call');
   MopSDK.qrcodeOpenApplet();
 };
@@ -168,21 +170,40 @@ const setActivityTransitionAnim = () => {
   MopSDK.setActivityTransitionAnim();
 };
 const App: () => Node = () => {
-  const [count, setCount] = useState(0);
+  const [isShowScaner, setIsShowScaner] = useState(false);
 
+  const [qrcode, setQrcode] = useState('');
   const isDarkMode = useColorScheme() === 'dark';
 
+  const handleSetIsShowScaner = status => {
+    setIsShowScaner(status);
+  };
+
+  const handleQRCodeResult = str => {
+    setQrcode(str);
+    qrcodeOpenApplet(str);
+  };
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={styles.scrollView}>
+        <ScanScreen
+          isShowScaner={isShowScaner}
+          handler={handleSetIsShowScaner}
+          getQRCodeResult={handleQRCodeResult}
+        />
         <Text style={styles.mainTitle}> React Native SDK Demo</Text>
         <Text style={styles.subTitle}>打开小程序</Text>
         <Button title="打开小程序" onPress={openApplet} />
         <Button title="查看小程序当前信息" onPress={getCurrentApplet} />
-        <Button title="扫码打开小程序" onPress={qrcodeOpenApplet} />
+        <Button
+          title="扫码打开小程序"
+          onPress={() => {
+            setIsShowScaner(!isShowScaner);
+          }}
+        />
         <Text style={styles.subTitle}>关闭/结束</Text>
         <Button title="关闭小程序" onPress={closeApplet} />
         <Button title="关闭所有小程序" onPress={closeAllApplets} />
@@ -199,7 +220,6 @@ const App: () => Node = () => {
           title="设置小程序切换动画（仅安卓）"
           onPress={setActivityTransitionAnim}
         />
-        <Button onPress={() => setCount(count + 1)} title="click me" />
       </ScrollView>
     </SafeAreaView>
   );
