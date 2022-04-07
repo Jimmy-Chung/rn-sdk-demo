@@ -38,5 +38,13 @@ allprojects {
         }
         google()
         maven { url 'https://www.jitpack.io' }
+
+        maven {
+            url "https://gradle.finogeeks.club/repository/applet/"
+            credentials {
+                username "applet"
+                password "123321"
+            }
+        }
     }
 }

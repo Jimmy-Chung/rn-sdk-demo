@@ -5280,7 +5280,7 @@ react-native-codegen@^0.0.8:
     jscodeshift "^0.11.0"
     nullthrows "^1.1.1"
 
-react-native-mopsdk@../../temp-work/react-native-mopsdk:
+react-native-mopsdk@../react-native-mopsdk:
   version "1.0.2"
 
 react-native-permissions@^2.0.2:
