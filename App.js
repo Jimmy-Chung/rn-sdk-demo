@@ -146,12 +146,10 @@ const addWebExtentionApi = () => {
 
 const registerExtensionApi = () => {
   console.log('registerExtensionApi call');
-  const getUserProfile = params => {
-    console.log('自定义 api getUserProfile call', params);
-    params.getUserProfileCalled = true;
-    return {userProfile: params};
+  const rnCustomAPI = params => {
+    console.log('自定义 api rn CustomAPI call', params);
   };
-  MopSDK.registerExtensionApi('getUserProfile', getUserProfile);
+  MopSDK.registerExtensionApi('rnCustomAPI', rnCustomAPI);
 };
 
 const callJS = () => {
