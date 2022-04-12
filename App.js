@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import type {Node} from 'react';
 
 import MopSDK from 'react-native-mopsdk';
@@ -17,35 +17,19 @@ import {
   StyleSheet,
   Text,
   useColorScheme,
-  View,
   Button,
-  Alert,
   Platform,
+  NativeModules,
+  NativeEventEmitter,
 } from 'react-native';
 
-// 按钮提供一个状态，状态用户 qrcodescanner 的渲染
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
-// import QRCodeScanner from 'react-native-qrcode-scanner';
-// import {RNCamera} from 'react-native-camera';
-
 import ScanScreen from './scanner.js';
-MopSDK.initialize({
-  appkey: 'WwLAv8FfjC+fctvUY2V7dg==',
-  secret: '9ec7155ac83d263a',
-  apiServer: 'https://finchat-mop-b.finogeeks.club',
-  apiPrefix: '/api/v1/mop',
-})
-  .then(res => {
-    console.log('🚀 ~ file: App.js ~ line 41 ~ res', res);
-  })
-  .catch(error => {
-    console.log('🚀 ~ file: App.js ~ line 48 ~ error', error);
-  });
 
 const openApplet = () => {
   console.log('openApplet call');
-  MopSDK.openApplet({appId: '5ea0412663cb900001d73867'});
+  MopSDK.openApplet({appId: '60964a900f0ca30001292da1'});
 };
 
 const getCurrentApplet = () => {
@@ -99,7 +83,38 @@ const registerAppletHandler = () => {
         '🚀 ~ file: App.js ~ line 123 ~ getCustomMenus ~ params',
         params,
       );
+      let list = [
+        {
+          menuId: 'menuid1',
+          image: 'image',
+          title: 'title',
+          type: 'type',
+          foo: 'foo',
+        },
+        {
+          menuId: 'menuid2',
+          image: 'image',
+          title: 'title',
+          type: 'type',
+          foo: 'foo',
+        },
+        {
+          menuId: 'menuid2',
+          image: 'image',
+          title: 'title',
+          type: 'type',
+          foo: 'foo',
+        },
+        {
+          menuId: 'menuid4',
+          image: 'image',
+          title: 'title',
+          type: 'type',
+          foo: 'foo',
+        },
+      ];
       console.log('getCustomMenus call');
+      return list;
     },
     onCustomMenuClick(params) {
       console.log(
@@ -141,7 +156,6 @@ const registerExtensionApi = () => {
 
 const callJS = () => {
   console.log('callJS call');
-  // todo: nativeViewId 应该填啥
   MopSDK.callJS('5ea0412663cb900001d73867', 'app2jsFunction', '', {
     foo: 'test',
   });
@@ -171,7 +185,23 @@ const setActivityTransitionAnim = () => {
 };
 const App: () => Node = () => {
   const [isShowScaner, setIsShowScaner] = useState(false);
-
+  useEffect(() => {
+    const eventEmitter = new NativeEventEmitter(NativeModules.FINMopSDK);
+    MopSDK.initialize({
+      appkey:
+        'Ev7QHvml1UcW98Y1GaLfR6Wco+BmbXHGW0J8XjJDwmq4Rs8e3Ake7IG3pIVL1D80',
+      secret: 'a457dbedc6ccf258',
+      apiServer: 'https://finchat-mop-b.finogeeks.club',
+      apiPrefix: '/api/v1/mop',
+      nativeEventEmitter: eventEmitter,
+    })
+      .then(res => {
+        console.log('🚀 ~ file: App.js ~ line 412 ~ res', res);
+      })
+      .catch(error => {
+        console.log('🚀 ~ file: App.js ~ line 49 ~ error', error);
+      });
+  });
   const [qrcode, setQrcode] = useState('');
   const isDarkMode = useColorScheme() === 'dark';
 
