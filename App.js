@@ -53,7 +53,7 @@ const qrcodeOpenApplet = qrcode => {
   console.log('🚀 ~ file: App.js ~ line 72 ~ qrcodeOpenApp ~ qrcode', qrcode);
 
   console.log('qrcodeOpenApplet call');
-  MopSDK.qrcodeOpenApplet();
+  MopSDK.qrcodeOpenApplet(qrcode);
 };
 
 const clearApplets = () => {
@@ -148,6 +148,7 @@ const registerExtensionApi = () => {
   console.log('registerExtensionApi call');
   const rnCustomAPI = params => {
     console.log('自定义 api rn CustomAPI call', params);
+    return {errMsg: 'rnCustomAPI:ok', data: params};
   };
   MopSDK.registerExtensionApi('rnCustomAPI', rnCustomAPI);
 };
@@ -179,7 +180,7 @@ const setActivityTransitionAnim = () => {
   }
   console.log('setActivityTransitionAnim call');
   // todo: anim 的值？
-  MopSDK.setActivityTransitionAnim();
+  MopSDK.setActivityTransitionAnim('SlideFromLeftToRightAnim');
 };
 const App: () => Node = () => {
   const [isShowScaner, setIsShowScaner] = useState(false);
@@ -191,6 +192,7 @@ const App: () => Node = () => {
       secret: 'a457dbedc6ccf258',
       apiServer: 'https://finchat-mop-b.finogeeks.club',
       apiPrefix: '/api/v1/mop',
+      debug: true,
       nativeEventEmitter: eventEmitter,
     })
       .then(res => {
