@@ -136,28 +136,36 @@ const registerAppletHandler = () => {
 
 const addWebExtentionApi = () => {
   console.log('addWebExtentionApi call');
-  const getWebUserProfile = params => {
-    console.log('webview 自定义api getWebUserProfile call', params);
-    params.getWebUserProfileCalled = true;
-    return {webUserProfile: params};
+  const rnWebCustomAPI = params => {
+    console.log('webview 自定义api rnWebCustomAPI call', params);
+    return {
+      errMsg: 'rnWebCustomAPI:ok',
+      data: 100,
+    };
   };
-  MopSDK.addWebExtentionApi('getWebUserProfile', getWebUserProfile);
+  MopSDK.addWebExtentionApi('rnWebCustomAPI', rnWebCustomAPI);
 };
 
 const registerExtensionApi = () => {
   console.log('registerExtensionApi call');
   const rnCustomAPI = params => {
-    console.log('自定义 api rn CustomAPI call', params);
-    return {errMsg: 'rnCustomAPI:ok', data: params};
+    console.log('自定义 api rn rnCustomAPI call', params);
+    return {
+      errMsg: 'rnCustomAPI:ok',
+      data: 111,
+    };
   };
   MopSDK.registerExtensionApi('rnCustomAPI', rnCustomAPI);
 };
 
 const callJS = () => {
-  console.log('callJS call');
-  MopSDK.callJS('5ea0412663cb900001d73867', 'app2jsFunction', '', {
-    foo: 'test',
-  });
+  MopSDK.callJS('60964a900f0ca30001292da1', 'app2jsFunction', '100')
+    .then(res => {
+      console.log('🚀 ~ file: App.js ~ line 167 ~ MopSDK.callJS ~ res', res);
+    })
+    .catch(res => {
+      console.log('🚀 ~ file: App.js ~ line 170 ~ MopSDK.callJS ~ res', res);
+    });
 };
 
 const sendCustomEvent = () => {
@@ -180,7 +188,7 @@ const setActivityTransitionAnim = () => {
   }
   console.log('setActivityTransitionAnim call');
   // todo: anim 的值？
-  MopSDK.setActivityTransitionAnim('SlideFromLeftToRightAnim');
+  MopSDK.setActivityTransitionAnim('SlideFromBottomToTopAnim');
 };
 const App: () => Node = () => {
   const [isShowScaner, setIsShowScaner] = useState(false);
