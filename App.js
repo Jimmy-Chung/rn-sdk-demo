@@ -159,7 +159,9 @@ const registerExtensionApi = () => {
 };
 
 const callJS = () => {
-  MopSDK.callJS('60964a900f0ca30001292da1', 'app2jsFunction', {data: '100'})
+  MopSDK.callJS('60964a900f0ca30001292da1', 'app2jsFunction', {
+    data: 100,
+  })
     .then(res => {
       console.log('🚀 ~ file: App.js ~ line 167 ~ MopSDK.callJS ~ res', res);
     })
