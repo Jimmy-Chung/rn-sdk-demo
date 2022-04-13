@@ -28,7 +28,6 @@ import {Colors} from 'react-native/Libraries/NewAppScreen';
 import ScanScreen from './scanner.js';
 
 const openApplet = () => {
-  console.log('openApplet call');
   MopSDK.openApplet({appId: '60964a900f0ca30001292da1'});
 };
 
@@ -50,7 +49,7 @@ const closeAllApplets = () => {
 };
 
 const qrcodeOpenApplet = qrcode => {
-  console.log('🚀 ~ file: App.js ~ line 72 ~ qrcodeOpenApp ~ qrcode', qrcode);
+  console.warn('当前扫码', qrcode);
 
   console.log('qrcodeOpenApplet call');
   MopSDK.qrcodeOpenApplet(qrcode);
@@ -62,7 +61,6 @@ const clearApplets = () => {
 };
 
 const registerAppletHandler = () => {
-  console.log('registerAppletHandler call');
   const handler = {
     forwardApplet(params) {
       console.log('forwardApplet call', params);
@@ -125,10 +123,10 @@ const registerAppletHandler = () => {
 const addWebExtentionApi = () => {
   console.log('addWebExtentionApi call');
   const rnWebCustomAPI = params => {
-    console.log('webview 自定义api rnWebCustomAPI call', params);
+    console.warn('webview 自定义api rnWebCustomAPI call', params);
     return {
       errMsg: 'rnWebCustomAPI:ok',
-      data: 100,
+      data: 'customAPI',
     };
   };
   MopSDK.addWebExtentionApi('rnWebCustomAPI', rnWebCustomAPI);
@@ -137,10 +135,10 @@ const addWebExtentionApi = () => {
 const registerExtensionApi = () => {
   console.log('registerExtensionApi call');
   const rnCustomAPI = params => {
-    console.log('自定义 api rn rnCustomAPI call', params);
+    console.warn('自定义 api rn rnCustomAPI call', params);
     return {
       errMsg: 'rnCustomAPI:ok',
-      data: 111,
+      data: 'webCustomAPI',
     };
   };
   MopSDK.registerExtensionApi('rnCustomAPI', rnCustomAPI);
@@ -151,15 +149,15 @@ const callJS = () => {
     data: 100,
   })
     .then(res => {
-      console.log('🚀 ~ file: App.js ~ line 167 ~ MopSDK.callJS ~ res', res);
+      console.warn('calljs 调用成功', res);
     })
     .catch(res => {
-      console.log('🚀 ~ file: App.js ~ line 170 ~ MopSDK.callJS ~ res', res);
+      console.warn('calljs 调用失败', res);
     });
 };
 
 const sendCustomEvent = () => {
-  console.log('sendCustomEvent call');
+  console.warn('sendCustomEvent call');
   MopSDK.sendCustomEvent('60964a900f0ca30001292da1', {
     evenatName: 'hello-world',
     foo: 'test',
@@ -167,7 +165,7 @@ const sendCustomEvent = () => {
 };
 
 const finishRunningApplet = () => {
-  console.log('finishRunningApplet call');
+  console.warn('结束运行的小程序');
   MopSDK.finishRunningApplet('60964a900f0ca30001292da1', true);
 };
 
