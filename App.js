@@ -159,7 +159,7 @@ const registerExtensionApi = () => {
 };
 
 const callJS = () => {
-  MopSDK.callJS('60964a900f0ca30001292da1', 'app2jsFunction', '100')
+  MopSDK.callJS('60964a900f0ca30001292da1', 'app2jsFunction', {data: '100'})
     .then(res => {
       console.log('🚀 ~ file: App.js ~ line 167 ~ MopSDK.callJS ~ res', res);
     })
@@ -200,7 +200,6 @@ const App: () => Node = () => {
       secret: 'a457dbedc6ccf258',
       apiServer: 'https://finchat-mop-b.finogeeks.club',
       apiPrefix: '/api/v1/mop',
-      debug: true,
       nativeEventEmitter: eventEmitter,
     })
       .then(res => {
