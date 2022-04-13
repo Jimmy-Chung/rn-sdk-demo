@@ -65,24 +65,20 @@ const registerAppletHandler = () => {
   console.log('registerAppletHandler call');
   const handler = {
     forwardApplet(params) {
-      console.log(
-        '🚀 ~ file: App.js ~ line 109 ~ forwardApplet ~ params',
-        params,
-      );
-      console.log('forwardApplet call');
+      console.log('forwardApplet call', params);
+      return [];
     },
     getUserInfo(params) {
-      console.log(
-        '🚀 ~ file: App.js ~ line 116 ~ getUserInfo ~ params',
-        params,
-      );
-      console.log('getUserInfo call');
+      console.log('getUserInfo call', params);
+      return {
+        errMsg: 'getUserInfo:ok',
+        data: {
+          name: 'jimmy',
+        },
+      };
     },
     getCustomMenus(params) {
-      console.log(
-        '🚀 ~ file: App.js ~ line 123 ~ getCustomMenus ~ params',
-        params,
-      );
+      console.log('getCustomMenus ca;;');
       let list = [
         {
           menuId: 'menuid1',
@@ -113,22 +109,14 @@ const registerAppletHandler = () => {
           foo: 'foo',
         },
       ];
-      console.log('getCustomMenus call');
       return list;
     },
     onCustomMenuClick(params) {
-      console.log(
-        '🚀 ~ file: App.js ~ line 130 ~ onCustomMenuClick ~ params',
-        params,
-      );
-      console.log('onCustomMenuClick call');
+      console.log('onCustomMenuClick', params);
     },
     appletDidOpen(params) {
-      console.log(
-        '🚀 ~ file: App.js ~ line 137 ~ appletDidOpen ~ params',
-        params,
-      );
-      console.log('appletDidOpen call');
+      console.log('appletDidOpen', params);
+      return params;
     },
   };
   MopSDK.registerAppletHandler(handler);
@@ -172,7 +160,7 @@ const callJS = () => {
 
 const sendCustomEvent = () => {
   console.log('sendCustomEvent call');
-  MopSDK.sendCustomEvent('5ea0412663cb900001d73867', {
+  MopSDK.sendCustomEvent('60964a900f0ca30001292da1', {
     evenatName: 'hello-world',
     foo: 'test',
   });
@@ -180,16 +168,15 @@ const sendCustomEvent = () => {
 
 const finishRunningApplet = () => {
   console.log('finishRunningApplet call');
-  MopSDK.finishRunningApplet('5ea0412663cb900001d73867', true);
+  MopSDK.finishRunningApplet('60964a900f0ca30001292da1', true);
 };
 
 const setActivityTransitionAnim = () => {
   if (Platform.OS !== 'android') {
-    console.log('仅安卓支持');
+    console.warn('仅安卓支持');
     return;
   }
   console.log('setActivityTransitionAnim call');
-  // todo: anim 的值？
   MopSDK.setActivityTransitionAnim('SlideFromBottomToTopAnim');
 };
 const App: () => Node = () => {
