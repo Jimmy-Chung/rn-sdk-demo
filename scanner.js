@@ -17,7 +17,7 @@ class ScanScreen extends Component {
         <ScrollView>
           <QRCodeScanner
             onRead={this.onSuccess}
-            flashMode={RNCamera.Constants.FlashMode.torch}
+            flashMode={RNCamera.Constants.FlashMode.auto}
             bottomContent={
               <View style={styles.marginTop}>
                 <Button

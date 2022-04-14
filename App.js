@@ -39,13 +39,17 @@ const getCurrentApplet = () => {
 };
 
 const closeApplet = () => {
-  console.log('closeApplet call');
-  MopSDK.closeApplet('5ea0412663cb900001d73867', true);
+  setTimeout(() => {
+    console.log('closeApplet call');
+    MopSDK.closeApplet('60964a900f0ca30001292da1', true);
+  }, 10000);
 };
 
 const closeAllApplets = () => {
-  console.log('closeAllApplets call');
-  MopSDK.closeAllApplets();
+  setTimeout(() => {
+    console.log('closeAllApplets call');
+    MopSDK.closeAllApplets();
+  }, 10000);
 };
 
 const qrcodeOpenApplet = qrcode => {
@@ -213,6 +217,7 @@ const App: () => Node = () => {
       apiServer: 'https://finchat-mop-b.finogeeks.club',
       apiPrefix: '/api/v1/mop',
       nativeEventEmitter: eventEmitter,
+      userId: '13286836062',
     })
       .then(res => {
         console.log('🚀 ~ file: App.js ~ line 412 ~ res', res);
