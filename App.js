@@ -31,11 +31,12 @@ const openApplet = () => {
   MopSDK.openApplet({appId: '60964a900f0ca30001292da1'});
 };
 
-const getCurrentApplet = () => {
+const getCurrentApplet = callback => {
   setTimeout(() => {
     console.log('getCurrentApplet call');
     MopSDK.currentApplet().then(res => {
       console.log('currentApplet', res);
+      callback(JSON.stringify(res));
     });
   }, 10000);
 };
@@ -229,8 +230,8 @@ const App: () => Node = () => {
       });
   });
   const [qrcode, setQrcode] = useState('');
+  const [appInfo, setAppInfo] = useState('');
   const isDarkMode = useColorScheme() === 'dark';
-
   const handleSetIsShowScaner = status => {
     setIsShowScaner(status);
   };
@@ -253,7 +254,13 @@ const App: () => Node = () => {
         <Text style={styles.mainTitle}> React Native SDK Demo</Text>
         <Text style={styles.subTitle}>打开小程序</Text>
         <Button title="打开小程序" onPress={openApplet} />
-        <Button title="查看小程序当前信息" onPress={getCurrentApplet} />
+        <Button
+          title="查看小程序当前信息"
+          onPress={() => {
+            getCurrentApplet(setAppInfo);
+          }}
+        />
+        <Text style={styles.padding}>小程序当前信息为: {appInfo}</Text>
         <Button
           title="扫码打开小程序"
           onPress={() => {
@@ -294,6 +301,9 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     textAlign: 'center',
     marginTop: 60,
+  },
+  padding: {
+    padding: 20,
   },
   subTitle: {
     fontWeight: '500',
