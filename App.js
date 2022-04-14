@@ -32,10 +32,12 @@ const openApplet = () => {
 };
 
 const getCurrentApplet = () => {
-  console.log('getCurrentApplet call');
-  MopSDK.currentApplet().then(res => {
-    console.log('currentApplet', res);
-  });
+  setTimeout(() => {
+    console.log('getCurrentApplet call');
+    MopSDK.currentApplet().then(res => {
+      console.log('currentApplet', res);
+    });
+  }, 10000);
 };
 
 const closeApplet = () => {
