@@ -23,8 +23,6 @@ import {
   NativeEventEmitter,
 } from 'react-native';
 
-import {Colors} from 'react-native/Libraries/NewAppScreen';
-
 import ScanScreen from './scanner.js';
 
 const openApplet = () => {
