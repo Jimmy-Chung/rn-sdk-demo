@@ -21,7 +21,7 @@ class ScanScreen extends Component {
             bottomContent={
               <View style={styles.marginTop}>
                 <Button
-                  title="退出扫码"
+                  title="退出扫1码"
                   onPress={() => {
                     this.props.handler(false);
                   }}
@@ -38,11 +38,12 @@ class ScanScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#fff',
-    position: 'absolute',
+    // position: 'absolute',
+    width: '100%',
     height: '100%',
-    top: 0,
-    left: 0,
-    zIndex: 10,
+    // top: 0,
+    // left: 0,
+    // zIndex: 10,
     justifyContent: 'center',
   },
   marginTop: {
