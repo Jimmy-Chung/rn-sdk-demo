@@ -6,6 +6,12 @@ import QRCodeScanner from 'react-native-qrcode-scanner';
 import {RNCamera} from 'react-native-camera';
 
 class ScanScreen extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      checkPermission: true,
+    };
+  }
   onSuccess = e => {
     this.props.getQRCodeResult(e.data);
     this.props.handler(false);
@@ -18,10 +24,11 @@ class ScanScreen extends Component {
           <QRCodeScanner
             onRead={this.onSuccess}
             flashMode={RNCamera.Constants.FlashMode.auto}
+            checkAndroid6Permissions={this.state.checkPermission}
             bottomContent={
               <View style={styles.marginTop}>
                 <Button
-                  title="退出扫码"
+                  title="退出扫1码"
                   onPress={() => {
                     this.props.handler(false);
                   }}
@@ -38,11 +45,12 @@ class ScanScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#fff',
-    position: 'absolute',
+    // position: 'absolute',
+    width: '100%',
     height: '100%',
-    top: 0,
-    left: 0,
-    zIndex: 10,
+    // top: 0,
+    // left: 0,
+    // zIndex: 10,
     justifyContent: 'center',
   },
   marginTop: {

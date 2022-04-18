@@ -18,12 +18,29 @@ import {
   Text,
   useColorScheme,
   Button,
+  View,
   Platform,
   NativeModules,
   NativeEventEmitter,
 } from 'react-native';
 
 import ScanScreen from './scanner.js';
+
+const eventEmitter = new NativeEventEmitter(NativeModules.FINMopSDK);
+MopSDK.initialize({
+  appkey: 'Ev7QHvml1UcW98Y1GaLfR6Wco+BmbXHGW0J8XjJDwmq4Rs8e3Ake7IG3pIVL1D80',
+  secret: 'a457dbedc6ccf258',
+  apiServer: 'https://finchat-mop-b.finogeeks.club',
+  apiPrefix: '/api/v1/mop',
+  nativeEventEmitter: eventEmitter,
+  userId: '13286836062',
+})
+  .then(res => {
+    console.log('初始化成功', res);
+  })
+  .catch(error => {
+    console.log('初始化失败', error);
+  });
 
 const openApplet = () => {
   MopSDK.openApplet({appId: '60964a900f0ca30001292da1'});
@@ -199,24 +216,7 @@ const setActivityTransitionAnim = () => {
 };
 const App: () => Node = () => {
   const [isShowScaner, setIsShowScaner] = useState(false);
-  useEffect(() => {
-    const eventEmitter = new NativeEventEmitter(NativeModules.FINMopSDK);
-    MopSDK.initialize({
-      appkey:
-        'Ev7QHvml1UcW98Y1GaLfR6Wco+BmbXHGW0J8XjJDwmq4Rs8e3Ake7IG3pIVL1D80',
-      secret: 'a457dbedc6ccf258',
-      apiServer: 'https://finchat-mop-b.finogeeks.club',
-      apiPrefix: '/api/v1/mop',
-      nativeEventEmitter: eventEmitter,
-      userId: '13286836062',
-    })
-      .then(res => {
-        console.log('🚀 ~ file: App.js ~ line 412 ~ res', res);
-      })
-      .catch(error => {
-        console.log('🚀 ~ file: App.js ~ line 49 ~ error', error);
-      });
-  });
+  useEffect(() => {});
   const [qrcode, setQrcode] = useState('');
   const [appInfo, setAppInfo] = useState('');
   const isDarkMode = useColorScheme() === 'dark';
@@ -239,38 +239,46 @@ const App: () => Node = () => {
           handler={handleSetIsShowScaner}
           getQRCodeResult={handleQRCodeResult}
         />
-        <Text style={styles.mainTitle}> React Native SDK Demo</Text>
-        <Text style={styles.subTitle}>打开小程序</Text>
-        <Button title="打开小程序" onPress={openApplet} />
-        <Button
-          title="查看小程序当前信息"
-          onPress={() => {
-            getCurrentApplet(setAppInfo);
-          }}
-        />
-        <Text style={styles.padding}>小程序当前信息为: {appInfo}</Text>
-        <Button
-          title="扫码打开小程序"
-          onPress={() => {
-            setIsShowScaner(!isShowScaner);
-          }}
-        />
-        <Text style={styles.subTitle}>关闭/结束</Text>
-        <Button title="关闭小程序" onPress={closeApplet} />
-        <Button title="关闭所有小程序" onPress={closeAllApplets} />
-        <Button title="清除缓存小程序" onPress={clearApplets} />
-        <Button title="结束小程序" onPress={finishRunningApplet} />
-        <Text style={styles.subTitle}>注册 API</Text>
-        <Button title="注册小程序事件处理" onPress={registerAppletHandler} />
-        <Button title="注册小程序扩展 api" onPress={registerExtensionApi} />
-        <Button title="注册 webview 扩展 api" onPress={addWebExtentionApi} />
-        <Text style={styles.subTitle}>其他</Text>
-        <Button title="原生调用 webview 中的 js 方法" onPress={callJS} />
-        <Button title="原生发送事件给小程序" onPress={sendCustomEvent} />
-        <Button
-          title="设置小程序切换动画（仅安卓）"
-          onPress={setActivityTransitionAnim}
-        />
+        <View>
+          <Text style={styles.mainTitle}> React Native SDK Demo</Text>
+          <Text style={styles.subTitle}>打开小程序</Text>
+          <Button title="打开小程序" onPress={openApplet} />
+          <Button
+            title="查看小程序当前信息"
+            onPress={() => {
+              getCurrentApplet(setAppInfo);
+            }}
+          />
+          <Text style={styles.padding}>小程序当前信息为: {appInfo}</Text>
+          <Button
+            title="扫码打开小程序"
+            onPress={() => {
+              setIsShowScaner(!isShowScaner);
+            }}
+          />
+        </View>
+        <View>
+          <Text style={styles.subTitle}>关闭/结束</Text>
+          <Button title="关闭小程序" onPress={closeApplet} />
+          <Button title="关闭所有小程序" onPress={closeAllApplets} />
+          <Button title="清除缓存小程序" onPress={clearApplets} />
+          <Button title="结束小程序" onPress={finishRunningApplet} />
+        </View>
+        <View>
+          <Text style={styles.subTitle}>注册 API</Text>
+          <Button title="注册小程序事件处理" onPress={registerAppletHandler} />
+          <Button title="注册小程序扩展 api" onPress={registerExtensionApi} />
+          <Button title="注册 webview 扩展 api" onPress={addWebExtentionApi} />
+        </View>
+        <View>
+          <Text style={styles.subTitle}>其他</Text>
+          <Button title="原生调用 webview 中的 js 方法" onPress={callJS} />
+          <Button title="原生发送事件给小程序" onPress={sendCustomEvent} />
+          <Button
+            title="设置小程序切换动画（仅安卓）"
+            onPress={setActivityTransitionAnim}
+          />
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
