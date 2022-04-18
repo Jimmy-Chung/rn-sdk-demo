@@ -150,48 +150,23 @@ const registerExtensionApi = () => {
 };
 
 const callJS = () => {
-  if (Platform.OS !== 'android') {
-    setTimeout(() => {
-      console.warn('ios calljs 执行');
-      MopSDK.callJS('60964a900f0ca30001292da1', 'app2jsFunction', {
-        data: 100,
-      })
-        .then(res => {
-          console.warn('calljs 调用成功', res);
-        })
-        .catch(res => {
-          console.warn('calljs 调用失败', res);
-        });
-    }, 10000);
-  } else {
-    MopSDK.callJS('60964a900f0ca30001292da1', 'app2jsFunction', {
-      data: 100,
+  MopSDK.callJS('60964a900f0ca30001292da1', 'app2jsFunction', {
+    data: 100,
+  })
+    .then(res => {
+      console.warn('calljs 调用成功', res);
     })
-      .then(res => {
-        console.warn('calljs 调用成功', res);
-      })
-      .catch(res => {
-        console.warn('calljs 调用失败', res);
-      });
-  }
+    .catch(res => {
+      console.warn('calljs 调用失败', res);
+    });
 };
 
 const sendCustomEvent = () => {
-  if (Platform.OS !== 'android') {
-    setTimeout(() => {
-      console.warn('sendCustomEvent call');
-      MopSDK.sendCustomEvent('60964a900f0ca30001292da1', {
-        evenatName: 'hello-world',
-        foo: 'test',
-      });
-    }, 10000);
-  } else {
-    console.warn('sendCustomEvent call');
-    MopSDK.sendCustomEvent('60964a900f0ca30001292da1', {
-      evenatName: 'hello-world',
-      foo: 'test',
-    });
-  }
+  console.warn('sendCustomEvent call');
+  MopSDK.sendCustomEvent('60964a900f0ca30001292da1', {
+    evenatName: 'hello-world',
+    foo: 'test',
+  });
 };
 
 const finishRunningApplet = () => {
