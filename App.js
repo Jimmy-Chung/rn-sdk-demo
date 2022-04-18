@@ -26,21 +26,7 @@ import {
 
 import ScanScreen from './scanner.js';
 
-const eventEmitter = new NativeEventEmitter(NativeModules.FINMopSDK);
-MopSDK.initialize({
-  appkey: 'Ev7QHvml1UcW98Y1GaLfR6Wco+BmbXHGW0J8XjJDwmq4Rs8e3Ake7IG3pIVL1D80',
-  secret: 'a457dbedc6ccf258',
-  apiServer: 'https://finchat-mop-b.finogeeks.club',
-  apiPrefix: '/api/v1/mop',
-  nativeEventEmitter: eventEmitter,
-  userId: '13286836062',
-})
-  .then(res => {
-    console.log('初始化成功', res);
-  })
-  .catch(error => {
-    console.log('初始化失败', error);
-  });
+let isInited = false;
 
 const openApplet = () => {
   MopSDK.openApplet({appId: '60964a900f0ca30001292da1'});
@@ -216,7 +202,27 @@ const setActivityTransitionAnim = () => {
 };
 const App: () => Node = () => {
   const [isShowScaner, setIsShowScaner] = useState(false);
-  useEffect(() => {});
+  useEffect(() => {
+    if (!isInited) {
+      const eventEmitter = new NativeEventEmitter(NativeModules.FINMopSDK);
+      MopSDK.initialize({
+        appkey:
+          'Ev7QHvml1UcW98Y1GaLfR6Wco+BmbXHGW0J8XjJDwmq4Rs8e3Ake7IG3pIVL1D80',
+        secret: 'a457dbedc6ccf258',
+        apiServer: 'https://finchat-mop-b.finogeeks.club',
+        apiPrefix: '/api/v1/mop',
+        nativeEventEmitter: eventEmitter,
+        userId: '13286836062',
+      })
+        .then(res => {
+          isInited = true;
+          console.log('初始化成功', res);
+        })
+        .catch(error => {
+          console.log('初始化失败', error);
+        });
+    }
+  });
   const [qrcode, setQrcode] = useState('');
   const [appInfo, setAppInfo] = useState('');
   const isDarkMode = useColorScheme() === 'dark';
