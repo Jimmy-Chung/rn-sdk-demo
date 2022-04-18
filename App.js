@@ -32,6 +32,7 @@ MopSDK.initialize({
   secret: 'a457dbedc6ccf258',
   apiServer: 'https://finchat-mop-b.finogeeks.club',
   apiPrefix: '/api/v1/mop',
+  cryptType: 'SM',
   nativeEventEmitter: eventEmitter,
   userId: '13286836062',
 })
