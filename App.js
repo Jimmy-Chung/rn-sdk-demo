@@ -77,10 +77,10 @@ const registerAppletHandler = () => {
     getUserInfo(params) {
       console.log('getUserInfo call', params);
       return {
-        errMsg: 'getUserInfo:ok',
-        data: {
-          name: 'jimmy',
-        },
+        name: 'jimmy',
+        nickName: 'jimmy chung',
+        avatarUrl:
+          'https://img9.doubanio.com/view/subject/s/public/s34197964.jpg',
       };
     },
     getCustomMenus(params) {
