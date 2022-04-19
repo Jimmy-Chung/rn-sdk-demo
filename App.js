@@ -225,6 +225,7 @@ const App: () => Node = () => {
   });
   const [qrcode, setQrcode] = useState('');
   const [appInfo, setAppInfo] = useState('');
+  const [random, setRandomNum] = useState(() => {});
   const isDarkMode = useColorScheme() === 'dark';
   const handleSetIsShowScaner = status => {
     setIsShowScaner(status);
@@ -248,10 +249,18 @@ const App: () => Node = () => {
         <View>
           <Text style={styles.mainTitle}> React Native SDK Demo</Text>
           <Text style={styles.subTitle}>打开小程序</Text>
-          <Button title="打开小程序" onPress={openApplet} />
+          <Button
+            title="打开小程序"
+            onPress={() => {
+              setRandomNum(`${Math.random()}`);
+              openApplet();
+            }}
+          />
+
           <Button
             title="查看小程序当前信息"
             onPress={() => {
+              setRandomNum(`${Math.random()}`);
               getCurrentApplet(setAppInfo);
             }}
           />
@@ -259,30 +268,88 @@ const App: () => Node = () => {
           <Button
             title="扫码打开小程序"
             onPress={() => {
+              setRandomNum(`${Math.random()}`);
               setIsShowScaner(!isShowScaner);
             }}
           />
         </View>
         <View>
           <Text style={styles.subTitle}>关闭/结束</Text>
-          <Button title="关闭小程序" onPress={closeApplet} />
-          <Button title="关闭所有小程序" onPress={closeAllApplets} />
-          <Button title="清除缓存小程序" onPress={clearApplets} />
-          <Button title="结束小程序" onPress={finishRunningApplet} />
+          <Button
+            title="关闭小程序"
+            onPress={() => {
+              setRandomNum(`${Math.random()}`);
+              closeApplet();
+            }}
+          />
+          <Button
+            title="关闭所有小程序"
+            onPress={() => {
+              setRandomNum(`${Math.random()}`);
+              closeAllApplets();
+            }}
+          />
+          <Button
+            title="清除缓存小程序"
+            onPress={() => {
+              setRandomNum(`${Math.random()}`);
+              clearApplets();
+            }}
+          />
+          <Button
+            title="结束小程序"
+            onPress={() => {
+              setRandomNum(`${Math.random()}`);
+              finishRunningApplet();
+            }}
+          />
         </View>
         <View>
           <Text style={styles.subTitle}>注册 API</Text>
-          <Button title="注册小程序事件处理" onPress={registerAppletHandler} />
-          <Button title="注册小程序扩展 api" onPress={registerExtensionApi} />
-          <Button title="注册 webview 扩展 api" onPress={addWebExtentionApi} />
+          <Button
+            title="注册小程序事件处理"
+            onPress={() => {
+              setRandomNum(`${Math.random()}`);
+              registerAppletHandler();
+            }}
+          />
+          <Button
+            title="注册小程序扩展 api"
+            onPress={() => {
+              setRandomNum(`${Math.random()}`);
+              registerExtensionApi();
+            }}
+          />
+          <Button
+            title="注册 webview 扩展 api"
+            onPress={() => {
+              setRandomNum(`${Math.random()}`);
+              addWebExtentionApi();
+            }}
+          />
         </View>
         <View>
           <Text style={styles.subTitle}>其他</Text>
-          <Button title="原生调用 webview 中的 js 方法" onPress={callJS} />
-          <Button title="原生发送事件给小程序" onPress={sendCustomEvent} />
+          <Button
+            title="原生调用 webview 中的 js 方法"
+            onPress={() => {
+              setRandomNum(`${Math.random()}`);
+              callJS();
+            }}
+          />
+          <Button
+            title="原生发送事件给小程序"
+            onPress={() => {
+              setRandomNum(`${Math.random()}`);
+              sendCustomEvent();
+            }}
+          />
           <Button
             title="设置小程序切换动画（仅安卓）"
-            onPress={setActivityTransitionAnim}
+            onPress={() => {
+              setRandomNum(`${Math.random()}`);
+              setActivityTransitionAnim();
+            }}
           />
         </View>
       </ScrollView>
