@@ -8,6 +8,7 @@
 
 import React, {useState, useEffect} from 'react';
 import type {Node} from 'react';
+import BackgroundTimer from 'react-native-background-timer';
 
 import MopSDK from 'react-native-mopsdk';
 import {
@@ -21,6 +22,7 @@ import {
   View,
   Platform,
   NativeModules,
+  Alert,
   NativeEventEmitter,
 } from 'react-native';
 
@@ -33,26 +35,38 @@ const openApplet = () => {
 };
 
 const getCurrentApplet = callback => {
-  setTimeout(() => {
-    console.log('getCurrentApplet call');
-    MopSDK.currentApplet().then(res => {
-      console.log('currentApplet', res);
-      callback(JSON.stringify(res));
-    });
+  let time = 0;
+  BackgroundTimer.runBackgroundTimer(() => {
+    if (time === 0) {
+      console.log('getCurrentApplet call');
+      MopSDK.currentApplet().then(res => {
+        console.log('currentApplet', res);
+        callback(JSON.stringify(res));
+      });
+      time++;
+    }
   }, 10000);
 };
 
 const closeApplet = () => {
-  setTimeout(() => {
-    console.log('closeApplet call');
-    MopSDK.closeApplet('60964a900f0ca30001292da1', true);
+  let time = 0;
+  BackgroundTimer.runBackgroundTimer(() => {
+    if (time === 0) {
+      console.log('closeApplet call');
+      MopSDK.closeApplet('60964a900f0ca30001292da1', true);
+      time++;
+    }
   }, 10000);
 };
 
 const closeAllApplets = () => {
-  setTimeout(() => {
-    console.log('closeAllApplets call');
-    MopSDK.closeAllApplets();
+  let time = 0;
+  BackgroundTimer.runBackgroundTimer(() => {
+    if (time === 0) {
+      Alert.alert('closeAllApplets call');
+      MopSDK.closeAllApplets();
+      time++;
+    }
   }, 10000);
 };
 
@@ -154,17 +168,23 @@ const registerExtensionApi = () => {
 
 const callJS = () => {
   if (Platform.OS !== 'android') {
-    setTimeout(() => {
-      console.warn('ios calljs 执行');
-      MopSDK.callJS('60964a900f0ca30001292da1', 'app2jsFunction', {
-        data: 100,
-      })
-        .then(res => {
-          console.warn('calljs 调用成功', res);
+    let time = 0;
+    BackgroundTimer.runBackgroundTimer(() => {
+      if (time === 0) {
+        console.warn('ios calljs 执行');
+        MopSDK.callJS('60964a900f0ca30001292da1', 'app2jsFunction', {
+          data: 100,
         })
-        .catch(res => {
-          console.warn('calljs 调用失败', res);
-        });
+          .then(res => {
+            Alert.alert('calljs 调用成功');
+            console.warn('calljs 调用成功', res);
+          })
+          .catch(res => {
+            Alert.alert('calljs 失败');
+            console.warn('calljs 调用失败', res);
+          });
+        time++;
+      }
     }, 10000);
   } else {
     MopSDK.callJS('60964a900f0ca30001292da1', 'app2jsFunction', {
@@ -188,6 +208,7 @@ const sendCustomEvent = () => {
 };
 
 const finishRunningApplet = () => {
+  Alert.alert('finishRunningApplet');
   console.warn('结束运行的小程序');
   MopSDK.finishRunningApplet('60964a900f0ca30001292da1', true);
 };
@@ -202,6 +223,10 @@ const setActivityTransitionAnim = () => {
 };
 const App: () => Node = () => {
   const [isShowScaner, setIsShowScaner] = useState(false);
+  const [qrcode, setQrcode] = useState('');
+  const [appInfo, setAppInfo] = useState('');
+  const isDarkMode = useColorScheme() === 'dark';
+
   useEffect(() => {
     if (!isInited) {
       const eventEmitter = new NativeEventEmitter(NativeModules.FINMopSDK);
@@ -213,20 +238,18 @@ const App: () => Node = () => {
         apiPrefix: '/api/v1/mop',
         nativeEventEmitter: eventEmitter,
         userId: '13286836062',
+        finMopSDK: NativeModules.FINMopSDK,
       })
         .then(res => {
           isInited = true;
-          console.log('初始化成功', res);
+          Alert.alert('初始化成功');
         })
         .catch(error => {
-          console.log('初始化失败', error);
+          Alert.alert('初始化失败');
         });
     }
   });
-  const [qrcode, setQrcode] = useState('');
-  const [appInfo, setAppInfo] = useState('');
-  const [random, setRandomNum] = useState(() => {});
-  const isDarkMode = useColorScheme() === 'dark';
+
   const handleSetIsShowScaner = status => {
     setIsShowScaner(status);
   };
@@ -235,6 +258,7 @@ const App: () => Node = () => {
     setQrcode(str);
     qrcodeOpenApplet(str);
   };
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
@@ -249,18 +273,11 @@ const App: () => Node = () => {
         <View>
           <Text style={styles.mainTitle}> React Native SDK Demo</Text>
           <Text style={styles.subTitle}>打开小程序</Text>
-          <Button
-            title="打开小程序"
-            onPress={() => {
-              setRandomNum(`${Math.random()}`);
-              openApplet();
-            }}
-          />
+          <Button title="打开小程序" onPress={openApplet} />
 
           <Button
             title="查看小程序当前信息"
             onPress={() => {
-              setRandomNum(`${Math.random()}`);
               getCurrentApplet(setAppInfo);
             }}
           />
@@ -268,88 +285,30 @@ const App: () => Node = () => {
           <Button
             title="扫码打开小程序"
             onPress={() => {
-              setRandomNum(`${Math.random()}`);
               setIsShowScaner(!isShowScaner);
             }}
           />
         </View>
         <View>
           <Text style={styles.subTitle}>关闭/结束</Text>
-          <Button
-            title="关闭小程序"
-            onPress={() => {
-              setRandomNum(`${Math.random()}`);
-              closeApplet();
-            }}
-          />
-          <Button
-            title="关闭所有小程序"
-            onPress={() => {
-              setRandomNum(`${Math.random()}`);
-              closeAllApplets();
-            }}
-          />
-          <Button
-            title="清除缓存小程序"
-            onPress={() => {
-              setRandomNum(`${Math.random()}`);
-              clearApplets();
-            }}
-          />
-          <Button
-            title="结束小程序"
-            onPress={() => {
-              setRandomNum(`${Math.random()}`);
-              finishRunningApplet();
-            }}
-          />
+          <Button title="关闭小程序" onPress={closeApplet} />
+          <Button title="关闭所有小程序" onPress={closeAllApplets} />
+          <Button title="清除缓存小程序" onPress={clearApplets} />
+          <Button title="结束小程序" onPress={finishRunningApplet} />
         </View>
         <View>
           <Text style={styles.subTitle}>注册 API</Text>
-          <Button
-            title="注册小程序事件处理"
-            onPress={() => {
-              setRandomNum(`${Math.random()}`);
-              registerAppletHandler();
-            }}
-          />
-          <Button
-            title="注册小程序扩展 api"
-            onPress={() => {
-              setRandomNum(`${Math.random()}`);
-              registerExtensionApi();
-            }}
-          />
-          <Button
-            title="注册 webview 扩展 api"
-            onPress={() => {
-              setRandomNum(`${Math.random()}`);
-              addWebExtentionApi();
-            }}
-          />
+          <Button title="注册小程序事件处理" onPress={registerAppletHandler} />
+          <Button title="注册小程序扩展 api" onPress={registerExtensionApi} />
+          <Button title="注册 webview 扩展 api" onPress={addWebExtentionApi} />
         </View>
         <View>
           <Text style={styles.subTitle}>其他</Text>
-          <Button
-            title="原生调用 webview 中的 js 方法"
-            onPress={() => {
-              setRandomNum(`${Math.random()}`);
-              callJS();
-            }}
-          />
-          <Button
-            title="原生发送事件给小程序"
-            onPress={() => {
-              setRandomNum(`${Math.random()}`);
-              sendCustomEvent();
-            }}
-          />
+          <Button title="原生调用 webview 中的 js 方法" onPress={callJS} />
+          <Button title="原生发送事件给小程序" onPress={sendCustomEvent} />
           <Button
             title="设置小程序切换动画（仅安卓）"
-            onPress={() => {
-              setRandomNum(`${Math.random()}`);
-              setActivityTransitionAnim();
-            }}
+            onPress={setActivityTransitionAnim}
           />
         </View>
       </ScrollView>

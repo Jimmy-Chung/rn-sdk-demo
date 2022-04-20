@@ -28,7 +28,7 @@ class ScanScreen extends Component {
             bottomContent={
               <View style={styles.marginTop}>
                 <Button
-                  title="退出扫1码"
+                  title="退出扫码"
                   onPress={() => {
                     this.props.handler(false);
                   }}
