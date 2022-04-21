@@ -10,6 +10,7 @@ import React, {useState, useEffect} from 'react';
 import type {Node} from 'react';
 import BackgroundTimer from 'react-native-background-timer';
 
+const appId = '6260bf62e680b10001b1911f';
 import MopSDK from 'react-native-mopsdk';
 import {
   SafeAreaView,
@@ -31,7 +32,7 @@ import ScanScreen from './scanner.js';
 let isInited = false;
 
 const openApplet = () => {
-  MopSDK.openApplet({appId: '60964a900f0ca30001292da1'});
+  MopSDK.openApplet({appId});
 };
 
 const getCurrentApplet = callback => {
@@ -53,7 +54,7 @@ const closeApplet = () => {
   BackgroundTimer.runBackgroundTimer(() => {
     if (time === 0) {
       console.log('closeApplet call');
-      MopSDK.closeApplet('60964a900f0ca30001292da1', true);
+      MopSDK.closeApplet(appId, true);
       time++;
     }
   }, 10000);
@@ -92,13 +93,13 @@ const registerAppletHandler = () => {
       console.log('getUserInfo call', params);
       return {
         name: 'jimmy',
-        nickName: 'jimmy chung',
+        nickName: 'jimmy 123',
         avatarUrl:
           'https://img9.doubanio.com/view/subject/s/public/s34197964.jpg',
       };
     },
     getCustomMenus(params) {
-      console.log('getCustomMenus ca;;');
+      console.log('getCustomMenus call');
       let list = [
         {
           menuId: 'menuid1',
@@ -172,7 +173,7 @@ const callJS = () => {
     BackgroundTimer.runBackgroundTimer(() => {
       if (time === 0) {
         console.warn('ios calljs 执行');
-        MopSDK.callJS('60964a900f0ca30001292da1', 'app2jsFunction', {
+        MopSDK.callJS(appId, 'app2jsFunction', {
           data: 100,
         })
           .then(res => {
@@ -187,7 +188,7 @@ const callJS = () => {
       }
     }, 10000);
   } else {
-    MopSDK.callJS('60964a900f0ca30001292da1', 'app2jsFunction', {
+    MopSDK.callJS(appId, 'app2jsFunction', {
       data: 100,
     })
       .then(res => {
@@ -201,7 +202,7 @@ const callJS = () => {
 
 const sendCustomEvent = () => {
   console.warn('sendCustomEvent call');
-  MopSDK.sendCustomEvent('60964a900f0ca30001292da1', {
+  MopSDK.sendCustomEvent(appId, {
     evenatName: 'hello-world',
     foo: 'test',
   });
@@ -210,7 +211,7 @@ const sendCustomEvent = () => {
 const finishRunningApplet = () => {
   Alert.alert('finishRunningApplet');
   console.warn('结束运行的小程序');
-  MopSDK.finishRunningApplet('60964a900f0ca30001292da1', true);
+  MopSDK.finishRunningApplet(appId, true);
 };
 
 const setActivityTransitionAnim = () => {
@@ -232,12 +233,11 @@ const App: () => Node = () => {
       const eventEmitter = new NativeEventEmitter(NativeModules.FINMopSDK);
       MopSDK.initialize({
         appkey:
-          'Ev7QHvml1UcW98Y1GaLfR6Wco+BmbXHGW0J8XjJDwmq4Rs8e3Ake7IG3pIVL1D80',
-        secret: 'a457dbedc6ccf258',
-        apiServer: 'https://finchat-mop-b.finogeeks.club',
-        apiPrefix: '/api/v1/mop',
+          'Ev7QHvml1UcW98Y1GaLfRz34ReffbDESaTXbCoFyKhHm5K1hSIZ5WQtcH5E2Ow5V4P7ZoS9FWirImuaa/yIlLg==',
+        secret: '97f8e4dd3a0e7634',
+        apiServer: 'https://api.finclip.com',
+        apiPrefix: '/api/v1/mop/',
         nativeEventEmitter: eventEmitter,
-        userId: '13286836062',
         finMopSDK: NativeModules.FINMopSDK,
       })
         .then(res => {

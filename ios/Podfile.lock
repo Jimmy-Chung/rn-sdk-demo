@@ -285,7 +285,7 @@ PODS:
     - React-Core
   - react-native-camera/RN (4.2.1):
     - React-Core
-  - react-native-mopsdk (1.0.2):
+  - react-native-mopsdk (1.0.3):
     - FinApplet (= 2.36.3)
     - React
   - React-perflogger (0.67.4)
@@ -550,7 +550,7 @@ SPEC CHECKSUMS:
   React-logger: a1f028f6d8639a3f364ef80419e5e862e1115250
   react-native-background-timer: 17ea5e06803401a379ebf1f20505b793ac44d0fe
   react-native-camera: 3eae183c1d111103963f3dd913b65d01aef8110f
-  react-native-mopsdk: 5d19f053928b09cf3ae387dcfdc5e0e5ce756dd5
+  react-native-mopsdk: 3d1b0eec5c9858892359c71c775ceda78931bad4
   React-perflogger: 0afaf2f01a47fd0fc368a93bfbb5bd3b26db6e7f
   React-RCTActionSheet: 59f35c4029e0b532fc42114241a06e170b7431a2
   React-RCTAnimation: aae4f4bed122e78bdab72f7118d291d70a932ce2
@@ -568,6 +568,6 @@ SPEC CHECKSUMS:
   Yoga: d6b6a80659aa3e91aaba01d0012e7edcbedcbecd
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: cefea7e4bdc98972bdeb0293d2659fb264e6b6eb
+PODFILE CHECKSUM: 43a25db98c930b868c23d4b25a2bff595d02716f
 
 COCOAPODS: 1.11.3
